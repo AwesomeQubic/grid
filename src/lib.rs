@@ -1235,6 +1235,11 @@ impl<T> Grid<T> {
         &self.data
     }
 
+    pub fn flatten_mut(&mut self) -> &mut Vec<T> {
+        &mut self.data
+    }
+
+
     /// Converts self into a vector without clones or allocation.
     ///
     /// The order of the elements depends on the internal memory layout, which is
@@ -1608,7 +1613,7 @@ impl<T: Clone> From<&Vec<Vec<T>>> for Grid<T> {
     fn from(vec: &Vec<Vec<T>>) -> Self {
         let cols = vec.first().map_or(0, |row| row.len());
         Self::from_vec_with_order(
-            vec.clone().into_iter().flatten().collect(),
+            vec.clone().into_iter().().collect(),
             cols,
             Order::default(),
         )
